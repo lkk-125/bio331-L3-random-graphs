@@ -1,0 +1,3 @@
+RESOURCES AND COLLABORATIONS
+
+Use this space to describe any resources (including generative AI) or collaborations. Include a brief description of how you used the resource or the nature of the collaborations. You do not need to disclose using resources from Moodle, your own notes, or searching for basic Python syntax. 

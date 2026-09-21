@@ -1,0 +1,19 @@
+{
+  "name": "bio331 Python",
+  "image": "docker.io/annaritz/class-dev:bio331",
+  "customizations": {
+    "vscode": {
+      "extensions": ["bierner.emojisense", "bierner.markdown-emoji", "yzane.markdown-pdf", "ms-vscode.live-server"],
+      "settings": {
+        "github.copilot.enable": false,
+        "github.copilot.editor.enableAutoCompletions": false,
+        "chat.disableAIFeatures": true,
+        "markdown-pdf.executablePath": "/opt/ms-playwright/chromium-1234/chrome-linux/chrome",
+        "workbench.startupEditor": "none",
+        "workbench.editorAssociations": {
+          "*.md": "vscode.markdown.preview.editor"
+        }
+      }
+    }
+  }
+}
