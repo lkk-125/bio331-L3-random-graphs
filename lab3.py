@@ -2,19 +2,19 @@
 import random
 from pyvis.network import Network
 
-random.seed(19940913)
-
 def main():
     """
     Main function. Takes no inputs and returns nothing.
     """
     ## CALL your functions here.
     test = []
+    testlabels = ['ER_test.html', 'BA_test100.html', 'BA_test50.html', 'WS_test.html']
     test.append(gen_ER(25, 100))
     test.append(gen_BA(3, 1, 100))
     test.append(gen_BA(3, 2, 50))
+    test.append(gen_WS(25, 5, 0.5))
     for i in range(len(test)):
-        viz_graph(test[i], "test" + str(i) + ".html")
+        viz_graph(test[i], testlabels[i])
     
     return
 
@@ -63,15 +63,29 @@ def gen_WS(n, k, pr):
     nodes = ['0']
     edges = []
 
-    avdeg = 2*round(k/2) #ensures k is even against user error
-
+    hd = round(k/2) #half average degree
     #initial graph
     for i in range(n-1): #make a line of nodes of length n
         nodes.append(str(i+1))
         edges.append([str(i), str(i+1)])
     if n != 2: #close the loop
         edges.append(['0', str(n-1)])
+    for node in nodes: #make
+        for i in range(hd-1):
+            to = str((int(node)+2+i)%(len(nodes)))
+            if not ([node, to] in edges or [to, node] in edges):
+                edges.append([node, to])
+    #rewire
+    for u,v in edges:
+        r = random.random()
+        if r < pr:
+            edges.remove([u,v])
+            w = random.choice(nodes)
+            while ([u, w] in edges or [w, u] in edges):
+                w = random.choice(nodes)
+            edges.append([u, w]) 
 
+    return edges        
 
 def viz_graph(edges,outfile):
     """
@@ -87,21 +101,14 @@ def viz_graph(edges,outfile):
     nodes = []
     i = 0
     for u,v in edges: # add nodes an edges per edge without duplicates
-        print("bread")
-        print([u,v])
         if u not in nodes:
-            print("loaf")
-            print(u)
             nodes.append(u)
             G.add_node(u,label=u,color='#ace3a8',shape='diamond')
         if v not in nodes:
-            print("loaf")
-            print(v)
             nodes.append(v)
             G.add_node(v,label=v,color='#ace3a8',shape='diamond')
         i += 1
         G.add_edge(u,v,title="Order: " + str(i))
-    print(nodes)
 
     G.toggle_physics(True) 
     G.show_buttons(filter_=['physics'])
